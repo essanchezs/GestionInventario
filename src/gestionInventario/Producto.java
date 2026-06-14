@@ -1,5 +1,6 @@
 package gestionInventario;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 
@@ -9,17 +10,17 @@ public class Producto {
     private String nombre;
     private double precio;
     private String categoria;
-    private String fechaVencimiento;
+    private LocalDate fechaRegistro;
     private int cantidad;
     private ArrayList<String> listaImagenes;
     private Producto siguiente;
 
     //Metodo constructor
-    public Producto(String nombre, double precio, String categoria, String fechaVencimiento, int cantidad) {
+    public Producto(String nombre, double precio, String categoria, int cantidad) {
         this.nombre = nombre;
         this.precio = precio;
         this.categoria = categoria;
-        this.fechaVencimiento = fechaVencimiento;
+        this.fechaRegistro = LocalDate.now();
         this.cantidad = cantidad;
         this.listaImagenes = new ArrayList<>();
         this.siguiente = null;
@@ -43,8 +44,8 @@ public class Producto {
         return categoria;
     }
 
-    public String getFechaVencimiento() {
-        return fechaVencimiento;
+    public LocalDate getFechaRegistro() {
+        return fechaRegistro;
     }
 
     public int getCantidad() {
@@ -72,10 +73,6 @@ public class Producto {
         this.categoria = categoria;
     }
 
-    public void setFechaVencimiento(String fechaVencimiento) {
-        this.fechaVencimiento = fechaVencimiento;
-    }
-
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
@@ -86,11 +83,11 @@ public class Producto {
 
     //Metodo to String
     public String toString() {
-        String fecha = (fechaVencimiento == null) ? "No aplica" : fechaVencimiento;
+        String fecha = (fechaRegistro == null) ? "No aplica" : fechaRegistro.toString();
         return "\nProducto: " + nombre +
                "\nPrecio: " + precio +
                "\nCategoria: " + categoria +
-               "\nFecha de vencimiento: " + fecha +
+               "\nFecha de registro: " + fecha +
                "\nCantidad: " + cantidad +
                "\nImagenes: " + listaImagenes;
     }
