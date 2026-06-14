@@ -1,74 +1,152 @@
+import gestionInventario.ListaProductos;
+import gestionInventario.Producto;
+
 import java.util.Scanner;
-import gestionInventario.*;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
-        ListaProductos lista = new ListaProductos();
+        Scanner scanner = new Scanner(System.in);
+        ListaProductos inventario = new ListaProductos();
 
-        int opcion;
-
-        do {
-            System.out.println("\n===== PRUEBA REPORTE DE COSTOS =====");
-            System.out.println("1. Insertar producto");
-            System.out.println("2. Mostrar inventario");
-            System.out.println("3. Mostrar reporte de costos");
-            System.out.println("4. Salir");
-            System.out.print("Opción: ");
-
-            opcion = sc.nextInt();
-            sc.nextLine();
+        //Mostrar menu principal
+        int opcion = -1;
+        while (opcion != 0) {
+            System.out.println("\n=== Tienda de Electronica ===");
+            System.out.println("1. Ingresar como Administrador");
+            System.out.println("2. Ingresar como Cliente");
+            System.out.println("0. Salir");
+            System.out.print("Seleccione una opcion: ");
+            opcion = scanner.nextInt();
 
             switch (opcion) {
-
                 case 1:
-
-                    System.out.print("Nombre: ");
-                    String nombre = sc.nextLine();
-
-                    System.out.print("Precio: ");
-                    double precio = sc.nextDouble();
-
-                    System.out.print("Cantidad: ");
-                    int cantidad = sc.nextInt();
-                    sc.nextLine();
-
-                    System.out.print("Categoría: ");
-                    String categoria = sc.nextLine();
-
-                    Producto producto = new Producto(
-                            nombre,
-                            precio,
-                            categoria,
-                            cantidad
-                    );
-
-                    lista.insertarInicio(nombre, precio, categoria, cantidad); //Acá podríamos mandar solo el objeto producto, pero en el método está distinto
-
-                    System.out.println("Producto agregado.");
-                    System.out.println(producto);
+                    menuAdministrador(scanner, inventario);
                     break;
-
                 case 2:
-                    lista.mostrarInventario();
+                    menuCliente(scanner, inventario);
                     break;
-
-                case 3:
-                    lista.reporteCostos();
+                case 0:
+                    System.out.println("Hasta luego!");
                     break;
-
-                case 4:
-                    System.out.println("Programa finalizado.");
-                    break;
-
                 default:
-                    System.out.println("Opción inválida.");
+                    System.out.println("Opcion invalida, intente de nuevo.");
             }
+        }
 
-        } while (opcion != 3);
+        scanner.close();
+    }
 
-        sc.close();
+    //Menu del administrador
+    private static void menuAdministrador(Scanner scanner, ListaProductos inventario) {
+        int opcion = -1;
+        while (opcion != 0) {
+            System.out.println("\n=== Menu Administrador ===");
+            System.out.println("1. Agregar producto");
+            System.out.println("2. Modificar un producto");
+            System.out.println("3. Agregar imagen a un producto");
+            System.out.println("4. Eliminar un producto");
+            System.out.println("5. Mostrar inventario");
+            System.out.println("6. Reporte de costos");
+            System.out.println("0. Volver");
+            System.out.print("Seleccione una opcion: ");
+            opcion = scanner.nextInt();
+
+            switch (opcion) {
+                case 1:
+                    scanner.nextLine();
+                    System.out.print("Nombre del producto: ");
+                    String nombre = scanner.nextLine();
+                    System.out.print("Precio: ");
+                    double precio = scanner.nextDouble();
+                    scanner.nextLine();
+                    System.out.print("Categoria: ");
+                    String categoria = scanner.nextLine();
+                    System.out.print("Cantidad: ");
+                    int cantidad = scanner.nextInt();
+                    inventario.insertarInicio(nombre, precio, categoria, cantidad);
+                    System.out.println("Producto agregado.");
+                    break;
+                case 2:
+                    scanner.nextLine(); // limpiar el Enter pendiente
+                    System.out.print("Nombre del producto a modificar: ");
+                    String nombreMod = scanner.nextLine();
+                    System.out.print("Nuevo precio: ");
+                    double nuevoPrecio = scanner.nextDouble();
+                    scanner.nextLine(); // limpiar el Enter pendiente
+                    System.out.print("Nueva categoria: ");
+                    String nuevaCategoria = scanner.nextLine();
+                    System.out.print("Nueva cantidad: ");
+                    int nuevaCantidad = scanner.nextInt();
+                    if (inventario.modificar(nombreMod, nuevoPrecio, nuevaCategoria, nuevaCantidad)) {
+                        System.out.println("Producto modificado.");
+                    }
+                    break;
+                case 3:
+                    scanner.nextLine();
+                    System.out.print("Nombre del producto: ");
+                    String nombreImg = scanner.nextLine();
+                    System.out.print("Ruta de la imagen (ej: imagenes/laptop.png): ");
+                    String ruta = scanner.nextLine();
+                    if (inventario.agregarImagen(nombreImg, ruta)) {
+                        System.out.println("Imagen agregada.");
+                    }
+                    break;
+                case 4:
+                    scanner.nextLine();
+                    System.out.print("Nombre del producto a eliminar: ");
+                    String nombreEli = scanner.nextLine();
+                    Producto eliminado = inventario.eliminar(nombreEli);
+                    if (eliminado != null) {
+                        System.out.println("Producto eliminado: " + eliminado.getNombre());
+                    }
+                    break;
+                case 5:
+                    inventario.mostrarInventario();
+                    break;
+                case 6:
+                    inventario.reporteCostos();
+                    break;
+                case 0:
+                    System.out.println("Volviendo al menu principal.");
+                    break;
+                default:
+                    System.out.println("Opcion invalida, intente de nuevo.");
+            }
+        }
+    }
+
+    //Menu del cliente
+    private static void menuCliente(Scanner scanner, ListaProductos inventario) {
+        int opcion = -1;
+        while (opcion != 0) {
+            System.out.println("\n=== Menu Cliente ===");
+            System.out.println("1. Ver productos disponibles");
+            System.out.println("2. Buscar un producto");
+            System.out.println("0. Volver");
+            System.out.print("Seleccione una opcion: ");
+            opcion = scanner.nextInt();
+
+            switch (opcion) {
+                case 1:
+                    inventario.mostrarInventario();
+                    break;
+                case 2:
+                    scanner.nextLine();
+                    System.out.print("Nombre del producto a buscar: ");
+                    String nombre = scanner.nextLine();
+                    Producto p = inventario.buscar(nombre);
+                    if (p != null) {
+                        System.out.println(p);
+                    }
+                    break;
+                case 0:
+                    System.out.println("Volviendo al menu principal.");
+                    break;
+                default:
+                    System.out.println("Opcion invalida, intente de nuevo.");
+            }
+        }
     }
 }

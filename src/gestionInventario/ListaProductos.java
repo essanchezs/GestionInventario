@@ -40,11 +40,52 @@ public class ListaProductos {
         return null;
     }
 
-    //Metodo para modificar
+    //Metodo para modificar un producto (precio, categoria y cantidad)
+    public boolean modificar(String nombre, double nuevoPrecio, String nuevaCategoria, int nuevaCantidad) {
+        Producto p = buscar(nombre);
+        if (p == null) {
+            return false;
+        }
+        p.setPrecio(nuevoPrecio);
+        p.setCategoria(nuevaCategoria);
+        p.setCantidad(nuevaCantidad);
+        return true;
+    }
 
+    //Metodo para agregar una imagen a un producto
+    public boolean agregarImagen(String nombre, String ruta) {
+        Producto p = buscar(nombre);
+        if (p == null) {
+            return false;
+        }
+        p.agregarImagen(ruta);
+        return true;
+    }
 
-    //Metodo para eliminar
-
+    //Metodo para eliminar un producto
+    public Producto eliminar(String nombre) {
+        if (esVacia()) {
+            System.out.println("\nLa lista esta vacia.");
+            return null;
+        }
+        if (primero.getNombre().equalsIgnoreCase(nombre)) {
+            Producto eliminado = primero;
+            primero = primero.getSiguiente();
+            return eliminado;
+        }
+        Producto anterior = primero;
+        Producto temp = primero.getSiguiente();
+        while (temp != null && !temp.getNombre().equalsIgnoreCase(nombre)) {
+            anterior = temp;
+            temp = temp.getSiguiente();
+        }
+        if (temp == null) {
+            System.out.println("\nEl producto no esta en la lista.");
+            return null;
+        }
+        anterior.setSiguiente(temp.getSiguiente());
+        return temp;
+    }
 
     //Metodo para mostrar inventario
     public void mostrarInventario() {
