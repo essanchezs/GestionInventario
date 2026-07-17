@@ -65,8 +65,18 @@ public class Main {
                     String categoria = scanner.nextLine();
                     System.out.print("Cantidad: ");
                     int cantidad = scanner.nextInt();
-                    inventario.insertarInicio(nombre, precio, categoria, cantidad);
-                    System.out.println("Producto agregado.");
+                    System.out.println("Donde desea insertar el producto?");
+                    System.out.println("1. Al inicio de la lista");
+                    System.out.println("2. Al final de la lista");
+                    System.out.print("Seleccione una opcion: ");
+                    int posicion = scanner.nextInt();
+                    if (posicion == 1) {
+                        inventario.insertarInicio(nombre, precio, categoria, cantidad);
+                        System.out.println("Producto agregado al inicio de la lista.");
+                    } else {
+                        inventario.insertarFinal(nombre, precio, categoria, cantidad);
+                        System.out.println("Producto agregado al final de la lista.");
+                    }
                     break;
                 case 2:
                     scanner.nextLine(); // limpiar el Enter pendiente

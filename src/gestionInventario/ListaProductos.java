@@ -23,6 +23,20 @@ public class ListaProductos {
         primero = nuevo;
     }
 
+    //Metodo para insertar un producto al final
+    public void insertarFinal(String nombre, double precio, String categoria, int cantidad) {
+        Producto nuevo = new Producto(nombre, precio, categoria, cantidad);
+        if (esVacia()) {
+            primero = nuevo;
+            return;
+        }
+        Producto temp = primero;
+        while (temp.getSiguiente() != null) {
+            temp = temp.getSiguiente();
+        }
+        temp.setSiguiente(nuevo);
+    }
+
     //Metodo para buscar un producto
     public Producto buscar(String nombre) {
         if (esVacia()) {
