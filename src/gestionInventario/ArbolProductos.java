@@ -180,4 +180,14 @@ public class ArbolProductos {
         System.out.println("\nINVENTARIO DE LA TIENDA (ordenado por nombre)");
         enOrdenRec(raiz);
     }
+
+    // Método para agregar la ruta de una imagen a un producto en el árbol
+    public boolean agregarImagen(String nombre, String ruta) {
+        Producto p = buscar(nombre);
+        if (p == null) {
+            return false;
+        }
+        p.agregarImagen(ruta);
+        return true;
+    }
 }
