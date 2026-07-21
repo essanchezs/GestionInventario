@@ -1,7 +1,7 @@
 package gestionInventario;
 
 public class Tienda {
-    // Atributos de las estructuras dinámicas solicitadas
+    // Atributos de la tienda que al final son inventario y la cola de los clientes 
     private ArbolProductos inventario;
     private ColaClientes colaClientes;
 
